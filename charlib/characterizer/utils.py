@@ -62,6 +62,11 @@ def slew_pwl(v_0, v_1, t_slew, t_wait, low_threshold, high_threshold):
         (t_wait + t_full_slew,      v_1) # simulator will hold this voltage until sim end
     ]
 
+def to_lib_time(t_seconds, settings):
+    """Convert a time value in seconds (float) to the library's configured time unit."""
+    qty = t_seconds @ PySpice.Unit.u_s
+    return qty.convert(settings.units.time.prefixed_unit).value
+
 def init_circuit(title, cell_netlist, models):
     """Perform common circuit initialization tasks"""
     circuit = PySpice.Circuit(title)
